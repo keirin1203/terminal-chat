@@ -3,8 +3,23 @@ let term = $('body').terminal(function (command) {
     console.log(cmd)
 
     switch (cmd.name) {
+        case 'login':
+            const name = cmd.args[0]
+            localStorage.setItem('username', name)
+            this.echo(`hello ${name}`)
+            break;
         case 'connect':
-            socket = io()
+            const username = localStorage.getItem('username')
+            if (!username) {
+                this.echo('Please, tell me your name...')
+                break;
+            }
+
+            socket = io({
+                query: {
+                    username: username
+                }
+            })
 
             socket.on('messageToClient', (message) => {
                 this.echo(message, {raw: true})
@@ -22,6 +37,7 @@ let term = $('body').terminal(function (command) {
             }
 
             const message = cmd.name+ " " + cmd.rest
+
             socket.emit('messageToServer', message)
             break;
     }

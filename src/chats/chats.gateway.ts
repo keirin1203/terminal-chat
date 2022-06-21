@@ -16,17 +16,23 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect{
 
   @SubscribeMessage('messageToServer')
   handleMessage(client: Socket, payload: string): void {
-    this.messageToClient(client.id, payload)
+    const username = client.handshake.query.username;
+
+    this.messageToClient(String(username), payload)
   }
 
   handleDisconnect(client: Socket) {
-    this.messageToClient('Server', `Client disconnected ${client.id}`)
-    this.logger.log(`Client disconnected: ${client.id}`);
+    const username = client.handshake.query.username;
+
+    this.messageToClient('Server', `Client disconnected ${username}`)
+    this.logger.log(`Client disconnected: ${username}`);
   }
 
   handleConnection(client: Socket) {
-    this.messageToClient('Server', `Client connected ${client.id}`)
-    this.logger.log(`Client connected: ${client.id}`);
+    const username = client.handshake.query.username;
+
+    this.messageToClient('Server', `Client connected ${username}`)
+    this.logger.log(`Client connected: ${username}`);
   }
 
   messageToClient(senderName: string, message: string){
