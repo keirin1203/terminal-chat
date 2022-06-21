@@ -4,6 +4,7 @@ import { ChatsService } from './chats.service';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Chat } from "./chat.model";
 import { UsersModule } from "../users/users.module";
+import {ChatsGateway} from "./chats.gateway";
 
 @Module({
   imports: [
@@ -11,7 +12,7 @@ import { UsersModule } from "../users/users.module";
     UsersModule,
   ],
   controllers: [ChatsController],
-  providers: [ChatsService],
+  providers: [ChatsService, ChatsGateway],
   exports: [ChatsService]
 })
 export class ChatsModule {}
