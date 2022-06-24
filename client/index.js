@@ -2,12 +2,28 @@ import Chat from "./chat.js"
 import Auth from "./auth.js"
 
 const commands = {
+    'chat-create': {
+        args: ['chatName'],
+        description: 'Creates new chat /chat-create MYCHAT/'
+    },
+    'chat-connect': {
+        args: ['chatName'],
+        description: 'Connects to chat /chat-connect MYCHAT/'
+    },
+    'chat-addUser': {
+        args: ['chatName' ,'username'],
+        description: 'Adds user to chat /chat-addUser MYCHAT MYFRIEND/'
+    },
     'registration': {
         description: 'Create new terminal account and get access to crazy features'
     },
     'login': {
         description: 'Enter to your existing account'
+    },
+    'help': {
+        description: 'List of commands'
     }
+
 };
 
 var empty = {
@@ -31,24 +47,24 @@ let term = $('body').terminal(async function (command) {
                     console.log(key, commands[key]);
                 });
                 break;
-            case 'connect':
-                const username = localStorage.getItem('username')
-                if (!username) {
-                    this.echo('Please, tell me your name...')
-                    break;
-                }
-
-                chat = new Chat(term, username)
-                chat.connectToChat()
-
-                chat.socket.on('messageToClient', (message) => {
-                    this.echo(message, {raw: true})
-                })
-                break;
+            // case 'connect':
+            //     const username = localStorage.getItem('username')
+            //     if (!username) {
+            //         this.echo('Please, tell me your name...')
+            //         break;
+            //     }
+            //
+            //     chat = new Chat(term, username)
+            //     chat.connectToChat()
+            //
+            //     chat.socket.on('messageToClient', (message) => {
+            //         this.echo(message, {raw: true})
+            //     })
+            //     break;
 
             default:
                 if (!chat) {
-                    this.echo('Please, connect to server')
+                    this.echo('Please, connect to chat')
                     break
                 }
 
