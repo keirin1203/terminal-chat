@@ -1,4 +1,5 @@
 import Chat from "./chat.js"
+import Auth from "./auth.js"
 
 let term = $('body').terminal(async function (command) {
         const cmd = $.terminal.parse_command(command)
@@ -6,64 +7,11 @@ let term = $('body').terminal(async function (command) {
 
         switch (cmd.name) {
             case 'registration':
-                this.read('username: ', async username => {
-                    let response = await fetch('/users/check' + '?' + `username=${username}`);
-                    let json
-                    if (response.ok) {
-                        json = await response.json();
-                    } else {
-                        this.echo(response.statusMessage)
-                        return
-                    }
-
-                    if (json["status"] === "false") {
-                        this.echo(`This username is free`)
-                    } else {
-                        this.echo(`User ${username} already exists`)
-                        return
-                    }
-
-                    this.read('password: ', async password => {
-                        const userData = {
-                            username: username,
-                            password: password
-                        }
-
-                        let response = await fetch('/auth/registration', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(userData),
-                        });
-                        let token
-                        if (response.ok) {
-                            token = await response.text();
-                        } else {
-                            this.echo(response.statusMessage)
-                            return
-                        }
-
-                        localStorage.setItem('token', token)
-                    })
-
-                })
-
+                auth.registration()
                 break;
             case 'login':
-                const name = cmd.args[0]
-                let response = await fetch('/users/check' + '?' + `username=${name}`);
-
-                if (response.ok) {
-                    let json = await response.json();
-
-                } else {
-
-                }
-
-
+                auth.login()
                 break;
-
             case 'connect':
                 const username = localStorage.getItem('username')
                 if (!username) {
@@ -97,3 +45,4 @@ let term = $('body').terminal(async function (command) {
     });
 
 let chat
+let auth = new Auth(term)

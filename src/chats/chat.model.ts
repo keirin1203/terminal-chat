@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   ManyToMany,
   JoinTable,
-  OneToMany
+  OneToMany, ManyToOne
 } from 'typeorm';
 import { User } from "../users/user.model";
 import { Message } from "../messages/message.model";
@@ -17,6 +17,9 @@ export class Chat {
 
   @Column({unique: true})
   name: string;
+
+  @ManyToOne(() => User)
+  creator: User
 
   @ManyToMany(() => User)
   @JoinTable()

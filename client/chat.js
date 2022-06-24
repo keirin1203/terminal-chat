@@ -6,6 +6,9 @@ class Chat {
         this.socket = ''
     }
 
+    createChat(){
+
+    }
 
     connectToChat(){
         this.socket = io({
