@@ -8,6 +8,7 @@ import { MessagesModule } from './messages/messages.module';
 import { Message } from "./messages/message.model";
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { AuthModule } from './auth/auth.module';
 import 'dotenv/config'
 
 @Module({
@@ -31,6 +32,7 @@ import 'dotenv/config'
     UsersModule,
     ChatsModule,
     MessagesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

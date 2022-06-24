@@ -1,14 +1,15 @@
-import { Body, Controller, Post } from "@nestjs/common";
-import { CreateUserDto } from "./create-user.dto";
+import {Controller, Get, Query, UseGuards} from "@nestjs/common";
 import { UsersService } from "./users.service";
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 
 @Controller('users')
 export class UsersController {
   constructor(private UserService: UsersService) {
   }
 
-  @Post('add')
-  add(@Body() user: CreateUserDto) {
-    return this.UserService.createUser(user)
+  @Get('check')
+  checkUserByUsername(@Query('username') username: string){
+    console.log(username)
+    return this.UserService.checkUser(username)
   }
 }

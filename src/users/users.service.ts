@@ -1,8 +1,7 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { User } from "./user.model";
 import { Repository } from 'typeorm';
 import { InjectRepository } from "@nestjs/typeorm";
-import { CreateUserDto } from "./create-user.dto";
 
 @Injectable()
 export class UsersService {
@@ -11,21 +10,31 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
+  async checkUser(username: string): Promise<object> {
+    const user = await this.usersRepository.findOne({
+      where: {username: username}
+    })
+
+    if (user) {
+      return {
+        status: 'true'
+      }
+    }
+    return {
+      status: 'false'
+    }
+  }
+
   async getUserByUserName(username: string): Promise<User> {
     return await this.usersRepository.findOne({
       where: {username: username}
     })
   }
 
-  async createUser(user: CreateUserDto) {
-    const candidate = await this.getUserByUserName(user.username)
-
-    if (candidate) {
-      throw new HttpException(
-        "Такой пользователь уже существует",
-        HttpStatus.BAD_REQUEST)
-    }
-
-    return await this.usersRepository.save(user);
+  async createUser(username: string, password: string): Promise<User> {
+    return await this.usersRepository.save({
+      username: username,
+      password: password
+    });
   }
 }
