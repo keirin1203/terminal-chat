@@ -20,9 +20,7 @@ export class UsersService {
         status: 'true'
       }
     }
-    return {
-      status: 'false'
-    }
+    return {status: 'false'}
   }
 
   async getUserByUserName(username: string): Promise<User> {
@@ -36,5 +34,19 @@ export class UsersService {
       username: username,
       password: password
     });
+  }
+
+  async getUsersChat(username: string): Promise<User>{
+    return await this.usersRepository.findOne({
+      where: {username: username},
+      relations: ['chats']  
+    })
+  }
+
+  async test(name){
+    return await this.usersRepository.findOne({
+      where: {username: name},
+      relations: ['chats']
+    })
   }
 }

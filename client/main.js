@@ -1,35 +1,7 @@
 import Chat from "./chat.js"
 import Auth from "./auth.js"
+import commands from "./commands.js"
 
-const commands = {
-    'chat-create': {
-        args: ['chatName'],
-        description: 'Creates new chat /chat-create MYCHAT/'
-    },
-    'chat-connect': {
-        args: ['chatName'],
-        description: 'Connects to chat /chat-connect MYCHAT/'
-    },
-    'chat-addUser': {
-        args: ['chatName' ,'username'],
-        description: 'Adds user to chat /chat-addUser MYCHAT MYFRIEND/'
-    },
-    'registration': {
-        description: 'Create new terminal account and get access to crazy features'
-    },
-    'login': {
-        description: 'Enter to your existing account'
-    },
-    'help': {
-        description: 'List of commands'
-    }
-
-};
-
-var empty = {
-    options: [],
-    args: []
-};
 let term = $('body').terminal(async function (command) {
         const cmd = $.terminal.parse_command(command)
         console.log(cmd)
@@ -41,26 +13,25 @@ let term = $('body').terminal(async function (command) {
             case 'login':
                 auth.login()
                 break;
+            case 'chat-create':
+                chat.createChat(cmd.args.shift(), cmd.args)
+                break;
+            case 'chat-addUser':
+                chat.addUsers(cmd.args.shift(), cmd.args)
+                break;
+            case 'connect':
+                chat.connectToChat(cmd.args[0])
+                
+                chat.socket.on('messageToClient', (message) => {
+                    this.echo(message, {raw: true})
+                })
+                break;
             case 'help':
                 Object.keys(commands).forEach(key => {
                     this.echo(`[[;yellow;]${key.padEnd(15)}[[;gray;]${commands[key].description}`)
                     console.log(key, commands[key]);
                 });
                 break;
-            // case 'connect':
-            //     const username = localStorage.getItem('username')
-            //     if (!username) {
-            //         this.echo('Please, tell me your name...')
-            //         break;
-            //     }
-            //
-            //     chat = new Chat(term, username)
-            //     chat.connectToChat()
-            //
-            //     chat.socket.on('messageToClient', (message) => {
-            //         this.echo(message, {raw: true})
-            //     })
-            //     break;
 
             default:
                 if (!chat) {
@@ -111,5 +82,27 @@ let term = $('body').terminal(async function (command) {
         }
     });
 
-let chat
+async function onStart(terminal) {
+    let response = await fetch('/users/checkByToken', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    });
+    if (response.ok) {
+        let username = await response.text();
+        terminal.set_prompt(`${username}@you: `)
+    } else {
+        terminal.set_prompt(`guest@you: `)
+    }
+}
+
+onStart(term)
+
+var empty = {
+    options: [],
+    args: []
+};
+
+let chat = new Chat(term)
 let auth = new Auth(term)

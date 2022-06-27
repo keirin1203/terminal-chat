@@ -1,4 +1,13 @@
-import {Body, HttpException, HttpStatus, Injectable, Post, UnauthorizedException} from '@nestjs/common';
+import {
+  Body,
+  forwardRef,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Post,
+  UnauthorizedException
+} from '@nestjs/common';
 import { CreateUserDto } from "./create-user.dto";
 import { UsersService } from "../users/users.service";
 import { JwtService } from "@nestjs/jwt";

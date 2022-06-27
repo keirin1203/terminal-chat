@@ -18,7 +18,7 @@ export class Chat {
   @Column({unique: true})
   name: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, user => user.chats)
   creator: User
 
   @ManyToMany(() => User)

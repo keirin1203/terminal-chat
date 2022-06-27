@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from "typeorm";
 import { Message } from "../messages/message.model";
+import {Chat} from "../chats/chat.model";
 
 @Entity()
 export class User {
@@ -11,6 +12,9 @@ export class User {
 
   @Column()
   password: string;
+
+  @OneToMany(() => Chat, chat => chat.creator)
+  chats: Chat[]
 
   @OneToMany(() => Message, message => message.author)
   messages: Message[]
