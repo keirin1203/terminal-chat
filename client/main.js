@@ -33,6 +33,9 @@ let term = $('body').terminal(async function (command) {
             case 'chat-list':
                 chat.getUserChats()
                 break;
+            case 'getUserList':
+                chat.getAllUsers()
+                break;
             case 'help':
                 Object.keys(commands).forEach(key => {
                     this.echo(`[[;yellow;]${key.padEnd(20)}[[;gray;]${commands[key].description}`)

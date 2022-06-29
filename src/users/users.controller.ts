@@ -24,4 +24,9 @@ export class UsersController {
   getUserChats(@Request() request){
     return this.userService.getUserChats(request.user.username)
   }
+
+  @Get('getUserList')
+  getUserList(){
+    return this.userService.getUserList()
+  }
 }

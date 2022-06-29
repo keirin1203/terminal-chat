@@ -96,6 +96,26 @@ class Chat {
         }
     }
 
+    async getAllUsers(){
+        let response = await fetch('/users/getUserList', {
+            method: 'GET',
+        });
+        if (response.ok) {
+            let result = await response.json();
+
+            const tab = 'Username'
+            this.terminal.echo(`All users: ${result.countAll}`)
+            this.terminal.echo(`${tab.padEnd(20)}Registration date`)
+
+            for (const user of result.users) {
+                this.terminal.echo(`[[;green;]${user.username.padEnd(20)}[[;gray;]${user.created_at}`)
+            }
+        } else {
+            let json = await response.json();
+            this.terminal.echo(json.message)
+            return
+        }
+    }
 }
 
 export default Chat

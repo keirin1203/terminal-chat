@@ -50,4 +50,12 @@ export class UsersService {
     })
     return user.chats
   }
+
+  async getUserList(){
+    const result = await this.usersRepository.findAndCount()
+    return {
+      countAll: result[1],
+      users: result[0],
+    }
+  }
 }
