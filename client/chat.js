@@ -63,6 +63,15 @@ class Chat {
         })
     }
 
+    disconnect(){
+        this.socket.disconnect()
+        this.socket = ''
+    }
+
+    getSocket() {
+        return this.socket
+    }
+
     sendMessage(message){
         this.socket.emit('messageToServer', message)
     }

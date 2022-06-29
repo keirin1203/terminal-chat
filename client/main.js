@@ -26,15 +26,19 @@ let term = $('body').terminal(async function (command) {
                     this.echo(message, {raw: true})
                 })
                 break;
+            case 'chat-disconnect':
+                chat.disconnect()
+                this.echo('Disconnected...')
+                break;
             case 'help':
                 Object.keys(commands).forEach(key => {
-                    this.echo(`[[;yellow;]${key.padEnd(15)}[[;gray;]${commands[key].description}`)
+                    this.echo(`[[;yellow;]${key.padEnd(20)}[[;gray;]${commands[key].description}`)
                     console.log(key, commands[key]);
                 });
                 break;
 
             default:
-                if (!chat) {
+                if (!chat.getSocket()) {
                     this.echo('Please, connect to chat')
                     break
                 }
