@@ -52,7 +52,10 @@ export class UsersService {
   }
 
   async getUserList(){
-    const result = await this.usersRepository.findAndCount()
+    const result = await this.usersRepository.findAndCount({
+      select: ['username', 'created_at']
+    })
+
     return {
       countAll: result[1],
       users: result[0],
