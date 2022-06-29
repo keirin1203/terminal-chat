@@ -19,7 +19,7 @@ let term = $('body').terminal(async function (command) {
             case 'chat-addUser':
                 chat.addUsers(cmd.args.shift(), cmd.args)
                 break;
-            case 'connect':
+            case 'chat-connect':
                 chat.connectToChat(cmd.args[0])
                 
                 chat.socket.on('messageToClient', (message) => {

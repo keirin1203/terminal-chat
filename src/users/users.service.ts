@@ -14,11 +14,9 @@ export class UsersService {
     const user = await this.usersRepository.findOne({
       where: {username: username}
     })
-
+    
     if (user) {
-      return {
-        status: 'true'
-      }
+      return {status: 'true'}
     }
     return {status: 'false'}
   }

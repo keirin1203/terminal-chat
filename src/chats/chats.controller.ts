@@ -10,7 +10,7 @@ export class ChatsController {
   constructor(private ChatsService: ChatsService) {
   }
 
-  @UseGuards(JwtAuthGuard, ChatCreatorGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('add')
   createChat(@Body() dto: CreateChatDto, @Request() request) {
     return this.ChatsService.createChat(dto.name, request.user.username, dto.users)

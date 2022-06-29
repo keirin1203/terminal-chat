@@ -26,7 +26,7 @@ import 'dotenv/config'
       database: process.env.DB_NAME,
       entities: [User, Chat, Message],
       synchronize: true,
-      logging: true,
+      logging: false,
       logger: 'advanced-console',
     }),
     UsersModule,
