@@ -12,11 +12,11 @@ export class ChatCreatorGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest()
 
-    const user = await this.usersService.getUsersChat(req.user.username)
+    const chats = await this.usersService.getUserCreatedChats(req.user.username)
     const chatname = req.body.name
 
     let status
-    user.chats.forEach(item => {
+    chats.forEach(item => {
       if (item.name == chatname) {
         status = true
       }

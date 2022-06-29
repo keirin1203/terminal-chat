@@ -4,13 +4,13 @@ import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 
 @Controller('users')
 export class UsersController {
-  constructor(private UserService: UsersService) {
+  constructor(private userService: UsersService) {
   }
 
   @Get('check')
   checkUserByUsername(@Query('username') username: string){
     console.log(username)
-    return this.UserService.checkUser(username)
+    return this.userService.checkUser(username)
   }
 
   @UseGuards(JwtAuthGuard)
@@ -19,8 +19,9 @@ export class UsersController {
     return request.user.username
   }
 
-  @Get('test')
-  test(@Query('name') name){
-    return this.UserService.test(name)
+  @UseGuards(JwtAuthGuard)
+  @Get('getUserChats')
+  getUserChats(@Request() request){
+    return this.userService.getUserChats(request.user.username)
   }
 }

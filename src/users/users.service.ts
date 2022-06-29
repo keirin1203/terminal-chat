@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { User } from "./user.model";
 import { Repository } from 'typeorm';
 import { InjectRepository } from "@nestjs/typeorm";
+import { Chat } from "src/chats/chat.model";
 
 @Injectable()
 export class UsersService {
@@ -34,17 +35,19 @@ export class UsersService {
     });
   }
 
-  async getUsersChat(username: string): Promise<User>{
-    return await this.usersRepository.findOne({
+  async getUserCreatedChats(username: string): Promise<Chat[]>{
+    const user =  await this.usersRepository.findOne({
+      where: {username: username},
+      relations: ['chatsCreatedByUser']  
+    })
+    return user.chatsCreatedByUser
+  }
+
+  async getUserChats(username: string): Promise<Chat[]>{
+    const user =  await this.usersRepository.findOne({
       where: {username: username},
       relations: ['chats']  
     })
-  }
-
-  async test(name){
-    return await this.usersRepository.findOne({
-      where: {username: name},
-      relations: ['chats']
-    })
+    return user.chats
   }
 }

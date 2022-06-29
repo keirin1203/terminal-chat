@@ -30,6 +30,9 @@ let term = $('body').terminal(async function (command) {
                 chat.disconnect()
                 this.echo('Disconnected...')
                 break;
+            case 'chat-list':
+                chat.getUserChats()
+                break;
             case 'help':
                 Object.keys(commands).forEach(key => {
                     this.echo(`[[;yellow;]${key.padEnd(20)}[[;gray;]${commands[key].description}`)

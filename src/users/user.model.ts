@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, ManyToMany } from "typeorm";
 import { Message } from "../messages/message.model";
 import {Chat} from "../chats/chat.model";
 
@@ -14,6 +14,9 @@ export class User {
   password: string;
 
   @OneToMany(() => Chat, chat => chat.creator)
+  chatsCreatedByUser: Chat[];
+
+  @ManyToMany(() => Chat, chat => chat.users)
   chats: Chat[]
 
   @OneToMany(() => Message, message => message.author)

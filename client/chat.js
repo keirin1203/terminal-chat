@@ -76,6 +76,26 @@ class Chat {
         this.socket.emit('messageToServer', message)
     }
 
+    async getUserChats(){
+        let response = await fetch('/users/getUserChats', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        });
+        if (response.ok) {
+            let chats = await response.json();
+            for (const chat of chats) {
+                this.terminal.echo(`[[;green;]${chat.name.padEnd(20)}`)
+            }
+            console.log(json)
+        } else {
+            let json = await response.json();
+            this.terminal.echo(json.message)
+            return
+        }
+    }
+
 }
 
 export default Chat

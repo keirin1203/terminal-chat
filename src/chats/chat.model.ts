@@ -18,10 +18,10 @@ export class Chat {
   @Column({unique: true})
   name: string;
 
-  @ManyToOne(() => User, user => user.chats)
+  @ManyToOne(() => User, user => user.chatsCreatedByUser)
   creator: User
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => User, user => user.chats)
   @JoinTable()
   users: User[];
 

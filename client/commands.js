@@ -20,6 +20,9 @@ const commands = {
         args: ['chatName' ,'username'],
         description: 'Adds user to chat /chat-addUser MYCHAT MYFRIENDS.../'
     },
+    'chat-list': {
+        description: 'List of chats available to you'
+    },
 };
 
 export default commands
