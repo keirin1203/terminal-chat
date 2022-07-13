@@ -35,7 +35,8 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect{
     this.messageToClient(
       chatname, 
       String(username), 
-      payload)
+      payload
+    )
   }
 
   handleDisconnect(client: Socket) {

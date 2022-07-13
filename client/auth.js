@@ -9,9 +9,9 @@ export default class Auth {
 
             console.log(status)
             if (status === false) {
-                this.terminal.echo(`This username is free`)
+                this.terminal.echo(`[[;green;]This username is free`)
             } else {
-                this.terminal.echo(`User ${username} already exists`)
+                this.terminal.echo(`[[;red;]User ${username} already exists`)
                 return
             }
 
@@ -31,7 +31,7 @@ export default class Auth {
                 let token
                 if (response.ok) {
                     token = await response.text();
-                    this.terminal.echo(`Hello ${username}!`)
+                    this.terminal.echo(`[[;green;]Hello ${username}!`)
                 } else {
                     this.terminal.echo(response.statusMessage)
                     return
@@ -49,7 +49,7 @@ export default class Auth {
 
             console.log(status)
             if (status === false) {
-                this.terminal.echo(`There is no user with this name`)
+                this.terminal.echo(`[[;red;]There is no user with this name`)
                 return
             }
 

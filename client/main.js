@@ -6,7 +6,7 @@ let term = $('body').terminal(async function (command) {
         const cmd = $.terminal.parse_command(command)
         console.log(cmd)
 
-        switch (cmd.name) {
+        switch (cmd.name.toLowerCase()) {
             case 'registration':
                 auth.registration()
                 break;
@@ -14,10 +14,10 @@ let term = $('body').terminal(async function (command) {
                 auth.login()
                 break;
             case 'chat-create':
-                chat.createChat(cmd.args.shift(), cmd.args)
+                await chat.createChat(cmd.args.shift(), cmd.args)
                 break;
             case 'chat-addUser':
-                chat.addUsers(cmd.args.shift(), cmd.args)
+                await chat.addUsers(cmd.args.shift(), cmd.args)
                 break;
             case 'chat-connect':
                 chat.connectToChat(cmd.args[0])
@@ -31,10 +31,10 @@ let term = $('body').terminal(async function (command) {
                 this.echo('Disconnected...')
                 break;
             case 'chat-list':
-                chat.getUserChats()
+                await chat.getUserChats()
                 break;
-            case 'getUserList':
-                chat.getAllUsers()
+            case 'userlist':
+                await chat.getAllUsers()
                 break;
             case 'help':
                 Object.keys(commands).forEach(key => {
@@ -59,12 +59,9 @@ let term = $('body').terminal(async function (command) {
     {
         greetings: greetings.innerHTML,
         autocompleteMenu: true,
-        //clear: false, // will disable command and completion for defaul commands
-        //exit: false,
         completion: function () {
             const term = this;
-            // return promise if completion need to be asynnc
-            // in this example it's not needed, you can just retrun an array
+
             return new Promise(function (resolve) {
                 const command = term.get_command();
                 const name = command.match(/^([^\s]*)/)[0];
