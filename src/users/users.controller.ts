@@ -9,7 +9,6 @@ export class UsersController {
 
   @Get('check')
   checkUserByUsername(@Query('username') username: string){
-    console.log(username)
     return this.userService.checkUser(username)
   }
 

@@ -4,7 +4,6 @@ import commands from "./commands.js"
 
 let term = $('body').terminal(async function (command) {
         const cmd = $.terminal.parse_command(command)
-        console.log(cmd)
 
         switch (cmd.name.toLowerCase()) {
             case 'registration':
@@ -39,7 +38,6 @@ let term = $('body').terminal(async function (command) {
             case 'help':
                 Object.keys(commands).forEach(key => {
                     this.echo(`[[;yellow;]${key.padEnd(20)}[[;gray;]${commands[key].description}`)
-                    console.log(key, commands[key]);
                 });
                 break;
 

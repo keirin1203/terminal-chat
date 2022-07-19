@@ -11,11 +11,9 @@ export class JwtSocketAuthGuard implements CanActivate {
 
   canActivate(context: ExecutionContext,): boolean | Promise<boolean> | Observable<boolean> {
     const client = context.switchToWs().getClient()
-    console.log('test')
 
     try {
       const authHeader = client.handshake.auth.token;
-      console.log(client)
       const bearer = authHeader.split(' ')[0]
       const token = authHeader.split(' ')[1]
 

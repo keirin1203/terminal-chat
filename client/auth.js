@@ -7,7 +7,6 @@ export default class Auth {
         this.terminal.read('username: ', async username => {
             const status = await this.checkUser(username)
 
-            console.log(status)
             if (status === false) {
                 this.terminal.echo(`[[;green;]This username is free`)
             } else {
@@ -47,7 +46,6 @@ export default class Auth {
         this.terminal.read('username: ', async username => {
             const status = await this.checkUser(username)
 
-            console.log(status)
             if (status === false) {
                 this.terminal.echo(`[[;red;]There is no user with this name`)
                 return
@@ -91,7 +89,6 @@ export default class Auth {
             return
         }
 
-        console.log(json["status"])
         if (json["status"] === "true") {
             return true
         } else {

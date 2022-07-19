@@ -21,7 +21,6 @@ class Chat {
         if (response.ok) {
             let json = await response.json();
             this.terminal.echo(`Chat ${chatname} created!`)
-            console.log(json)
         } else {
             let json = await response.json();
             this.terminal.echo(json.message)
@@ -44,7 +43,6 @@ class Chat {
         if (response.ok) {
             let json = await response.json();
             this.terminal.echo(`User added`)
-            console.log(json)
         } else {
             let json = await response.json();
             this.terminal.echo(json.message)
