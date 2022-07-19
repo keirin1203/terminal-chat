@@ -85,10 +85,13 @@ class Chat {
         });
         if (response.ok) {
             let chats = await response.json();
+            if (!chats) {
+                this.terminal.echo(`[[;red;]There are no chats available to you`)
+            }
+
             for (const chat of chats) {
                 this.terminal.echo(`[[;green;]${chat.name.padEnd(20)}`)
             }
-            console.log(json)
         } else {
             let json = await response.json();
             this.terminal.echo(json.message)
